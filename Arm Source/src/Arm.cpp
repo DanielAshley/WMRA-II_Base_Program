@@ -71,9 +71,6 @@ void Arm::running(void * aArg) {
 }
 
 
-
-
-
 void Arm::sendData( void * aArg){
 	Arm* a = (Arm*)aArg;
 	sending_udpsocket socket1( "localhost:6000" );
@@ -511,6 +508,11 @@ WMRA::JointValueSet Arm::getLastKnownJointPosition(){
       joints[i] = pos[i];
    }
    return joints; 
+}
+
+vector<double> Arm::getPosition()
+{
+   return controller.getLastKnownPos();  
 }
 
 bool Arm::toReady(bool blocking)

@@ -1,12 +1,16 @@
 
+
+#include <iostream>
+#include "WMRA_module.h"
 #include "ARM_module.h"
 #include "WHEELCHAIR_module.h"
 
 using namespace std;
+using namespace WMRA;
 
 int main()
 {
-	WMRA::ARM_module ARM;
-	
+	WMRA_module w;
+
 	return 0;
 }

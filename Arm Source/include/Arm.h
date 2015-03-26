@@ -43,6 +43,7 @@ public:
 	bool setInitialJointAngles(WMRA::JointValueSet& joints);
 	static void sendData(void* aArg);
 	WMRA::JointValueSet getLastKnownJointPosition();
+	vector<double> getPosition();
 	tthread::thread* t;
 	std::string command(std::string Command);
 

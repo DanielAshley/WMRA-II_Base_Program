@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace WMRA{
 	class Pose;
@@ -34,6 +35,7 @@ namespace WMRA{
 		bool setInitialJointAngles(WMRA::JointValueSet& joints);
 		static void sendData(void* aArg);
 		WMRA::JointValueSet getLastKnownJointPosition();
+		std::vector<double> getPosition();
 		std::string command(std::string Command);
 	};
 };

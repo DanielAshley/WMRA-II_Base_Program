@@ -50,7 +50,7 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WMRA_module</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WHEELCHAIR_module</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WHEELCHAIR_module</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,16 +117,16 @@
   <ItemGroup>
     <ClCompile Include="..\3rdparty\SockStream\src\SockStream.cpp" />
     <ClCompile Include="..\src\DMC-4143_Controller.cpp" />
-    <ClCompile Include="..\src\Wheelchair_module.cpp" />
+    <ClCompile Include="..\src\WHEELCHAIR_module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\SockStream\include\SockStream.h" />
     <ClInclude Include="..\include\ConfigReader.h" />
     <ClInclude Include="..\include\matrix.h" />
     <ClInclude Include="..\include\DMC-4143_Controller.h" />
+    <ClInclude Include="..\include\WHEELCHAIR_module.h" />
     <ClInclude Include="..\include\WmraTypes.h" />
     <ClInclude Include="..\include\WmraUtilities.h" />
-    <ClInclude Include="..\include\Wheelchair_module.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

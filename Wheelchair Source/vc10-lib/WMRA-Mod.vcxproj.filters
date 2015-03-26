@@ -24,10 +24,10 @@
     <ClCompile Include="..\3rdparty\SockStream\src\SockStream.cpp">
       <Filter>Source Files\SocketStream</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Wheelchair_module.cpp">
+    <ClCompile Include="..\src\DMC-4143_Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\DMC-4143_Controller.cpp">
+    <ClCompile Include="..\src\WHEELCHAIR_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,13 +44,13 @@
     <ClInclude Include="..\include\WmraUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Wheelchair_module.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\DMC-4143_Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ConfigReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\WHEELCHAIR_module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

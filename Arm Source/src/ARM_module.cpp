@@ -123,6 +123,11 @@ ARM_module::~ARM_module(void)
 {
 }
 
+std::vector<double> ARM_module::getPosition()
+{
+	return arm.getPosition();
+}
+
 std::string ARM_module::command(std::string Command)
 {
 	return arm.command(Command);

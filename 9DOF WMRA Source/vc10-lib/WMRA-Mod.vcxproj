@@ -21,7 +21,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CLRSupport>false</CLRSupport>
@@ -68,10 +68,11 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='TestBuild|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='TestBuild|Win32'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WMRA</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WMRA_module</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='TestBuild|Win32'">WMRA_module</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WMRA</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,12 +156,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ARM_module.h" />
+    <ClInclude Include="..\include\tinythread.h" />
+    <ClInclude Include="..\include\WHEELCHAIR_module.h" />
+    <ClInclude Include="..\include\WMRA.h" />
+    <ClInclude Include="..\include\WMRA_module.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\include\ARM_module.lib" />
+    <Library Include="..\include\WHEELCHAIR_module.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WMRA_module.cpp" />
+    <ClCompile Include="..\src\tinythread.cpp" />
+    <ClCompile Include="..\src\WMRA.cpp" />
+    <ClCompile Include="..\src\WMRA_module.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

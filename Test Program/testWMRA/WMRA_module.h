@@ -1,24 +1,20 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 namespace WMRA{
 	class Pose;
-	class Omni_data;
 	class JointValueSet;
 	enum CordFrame;
 };
 
-
 namespace WMRA{
-	class WHEELCHAIR_module
+	class WMRA_module
 	{
 	public:
-		WHEELCHAIR_module(void);
+		WMRA_module(void);
+		~WMRA_module(void);
 		bool initialize();
-		bool isInitialized();
-		std::vector<double> getPosition();
-//	private:
 	};
 };
-
