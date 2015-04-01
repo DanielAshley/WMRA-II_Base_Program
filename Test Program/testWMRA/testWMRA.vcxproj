@@ -63,13 +63,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ARM_module.h" />
-    <ClInclude Include="WHEELCHAIR_module.h" />
     <ClInclude Include="WMRA_module.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="ARM_module.lib" />
-    <Library Include="WHEELCHAIR_module.lib" />
     <Library Include="WMRA_module.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

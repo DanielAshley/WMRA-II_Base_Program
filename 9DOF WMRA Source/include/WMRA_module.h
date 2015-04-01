@@ -14,7 +14,7 @@ namespace WMRA{
 	{
 	public:
 		WMRA_module(void);
-		~WMRA_module(void);
+		//~WMRA_module(void);
 		bool initialize();
 	};
 };

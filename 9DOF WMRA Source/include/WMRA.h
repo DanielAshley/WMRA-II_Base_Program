@@ -9,7 +9,7 @@ namespace WMRA{
 	{
 	public:
 		wmra(void);
-		~wmra(void);
+		//~wmra(void);
 		bool initialize();
 		tthread::thread* t;
 	private:

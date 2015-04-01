@@ -4,6 +4,9 @@
 #include "WMRA.h"
 #include <time.h>
 
+//#pragma comment(lib, "ARM_module.lib")
+//#pragma comment(lib, "WHEELCHAIR_module.lib")
+
 using namespace std;
 using namespace WMRA;
 using namespace tthread;
@@ -17,10 +20,10 @@ wmra::wmra()
 
 bool wmra::initialize()
 {
-	if(!ARM.initialize())
-		return 0;
-	if(!WHEELCHAIR.initialize())
-		return 0;
+	//if(!ARM.initialize())
+	//	return 0;
+	//if(!WHEELCHAIR.initialize())
+	//	return 0;
 		
 	t = new thread(running,this);
 	
@@ -33,7 +36,7 @@ void wmra::running(void * aArg) {
 	float dt;
 	int count = 0;
 
-	while(count < 100)
+	while(count < 1000)
 	{
 		count++;
 
@@ -43,9 +46,10 @@ void wmra::running(void * aArg) {
 		last_time = current_time;
 		/********************/
 
-		for(int i = 0; i<50; i++)
-			cout<< endl;
-		cout << "Running... dt= " << dt << endl;
+		std::cout.flush();
+		//cout << "\rRunning... dt= " << dt;
+		cout << "\rRunning... dt= " << count;
+		
 	}
 }
 

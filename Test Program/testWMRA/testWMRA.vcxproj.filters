@@ -23,21 +23,9 @@
     <ClInclude Include="WMRA_module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ARM_module.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WHEELCHAIR_module.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="WMRA_module.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="ARM_module.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="WHEELCHAIR_module.lib">
       <Filter>Resource Files</Filter>
     </Library>
   </ItemGroup>
