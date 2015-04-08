@@ -155,7 +155,7 @@
     <ClCompile Include="..\3rdparty\SockStream\src\SockStream.cpp" />
     <ClCompile Include="..\src\Arm.cpp" />
     <ClCompile Include="..\src\ConfigReader.cpp" />
-    <ClCompile Include="..\src\galilController.cpp" />
+    <ClCompile Include="..\src\galilController2102.cpp" />
     <ClCompile Include="..\src\jacobian.cpp" />
     <ClCompile Include="..\src\kinematics.cpp" />
     <ClCompile Include="..\src\MotorController.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="..\3rdparty\SockStream\include\SockStream.h" />
     <ClInclude Include="..\include\Arm.h" />
     <ClInclude Include="..\include\ConfigReader.h" />
-    <ClInclude Include="..\include\galilController.h" />
+    <ClInclude Include="..\include\galilController2102.h" />
     <ClInclude Include="..\include\jacobian.h" />
     <ClInclude Include="..\include\kinematics.h" />
     <ClInclude Include="..\include\matrix.h" />

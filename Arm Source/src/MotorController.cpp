@@ -285,7 +285,8 @@ double MotorController::readPos(int motorNum) // returns the current motor angle
 		result = controller.command( "TP" + motor);	
 		istringstream stream(result);
 		stream >> encoderVal;
-		return encToAng(motorNum, encoderVal);        
+		lastKnownPos[motorNum-1] = encToAng(motorNum, encoderVal);
+		return lastKnownPos[motorNum-1];        
 	}
 	else{
 		if(motorNum != 8 && motorNum != 9){

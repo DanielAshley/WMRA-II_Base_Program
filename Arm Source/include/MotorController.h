@@ -12,7 +12,7 @@
 #include <vector>
 #include <ctype.h>
 #include "WmraTypes.h"
-#include "galilController.h"
+#include "galilController2102.h"
 
 using namespace std;
 
@@ -171,7 +171,7 @@ public:
 	std::string command(std::string Command);
 
 private:
-	galilController controller;
+	galilController2102 controller;
 	bool setDefaults(); // set defaults
 	bool setBrushedMotors();
 	bool setBrushedMode(int motorNum, int mode);

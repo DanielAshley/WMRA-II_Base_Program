@@ -1,15 +1,15 @@
-#ifndef GALILCONTROLLER_H
-#define GALILCONTROLLER_H
+#ifndef GALILCONTROLLER2102_H
+#define GALILCONTROLLER2102_H
 
 #include <string>
 #include <fstream>
 
 class client_tcpsocket;
 
-class galilController {
+class galilController2102{
 public:
-	galilController(); // sets initialized to false
-	~galilController(); // closes socket communication
+	galilController2102(); // sets initialized to false
+	~galilController2102(); // closes socket communication
 	bool initialize(); // Initializes socket communication
 	bool isInitialized(); // return initialized
 	bool isSimulated(); // return simulation

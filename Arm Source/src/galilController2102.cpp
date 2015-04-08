@@ -1,4 +1,4 @@
-#include "galilController.h"
+#include "galilController2102.h"
 #include "SockStream.h"
 #include "ConfigReader.h"
 
@@ -10,19 +10,19 @@ using namespace std;
 //
 ************************/
 
-client_tcpsocket galilController::sock;
+client_tcpsocket galilController2102::sock;
 
-galilController::galilController(){
+galilController2102::galilController2102(){
 	debugFile.open("data/GalilDebug.log");
 	initialized = false;
 }
 
-galilController::~galilController(){
+galilController2102::~galilController2102(){
 	debugFile.close();
 	sock.close();
 }
 
-bool galilController::initialize()
+bool galilController2102::initialize()
 {
 	initialized = setDefaults();
 	if(initialized)
@@ -34,7 +34,7 @@ bool galilController::initialize()
 		}
 		else
 		{
-			initialized = initializeSocket(galilController::IP);
+			initialized = initializeSocket(galilController2102::IP);
 		}
 	}
 	if(!initialized)
@@ -57,21 +57,21 @@ bool galilController::initialize()
 	}
 }
 
-bool galilController::isInitialized() // return initialized
+bool galilController2102::isInitialized() // return initialized
 {
 	return initialized;
 }
 
-bool galilController::isSimulated() // return simulation
+bool galilController2102::isSimulated() // return simulation
 {
 	return simulation;
 }
-bool galilController::isDebug() // return simulation
+bool galilController2102::isDebug() // return simulation
 {
 	return debug;
 }
 
-std::string galilController::command(std::string Command)
+std::string galilController2102::command(std::string Command)
 {
 	if(simulation)
 	{
@@ -92,7 +92,7 @@ std::string galilController::command(std::string Command)
 }
 
 // PRIVATE FUNCTIONS
-bool galilController::setDefaults()
+bool galilController2102::setDefaults()
 {
 	ConfigReader reader;
 	reader.parseFile("settings_controller.conf");
@@ -100,7 +100,7 @@ bool galilController::setDefaults()
 
 	if(reader.keyPresent("IP"))
 	{
-		galilController::IP = reader.getString("IP");
+		galilController2102::IP = reader.getString("IP");
 	}
 	else
 	{
@@ -129,14 +129,14 @@ bool galilController::setDefaults()
 	return 1;
 }	
 
-bool galilController::initializeSocket(std::string IP)
+bool galilController2102::initializeSocket(std::string IP)
 {
 	const char * c = IP.c_str();
 	sock.open(c,23);
-	return galilController::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
+	return galilController2102::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
 }
 
-int galilController::commandGalil(char* Command, char* Response, int ResponseSize) //returns the number of bytes read
+int galilController2102::commandGalil(char* Command, char* Response, int ResponseSize) //returns the number of bytes read
 {
 	//command() sends an ASCII Command (e.g. "TPX") to the controller and retrieves a Response (e.g. "123\r\n:").
 	//The size of Response should be supplied as ResponseSize so that unallocated memory is not overwritten.

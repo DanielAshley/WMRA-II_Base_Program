@@ -512,7 +512,8 @@ WMRA::JointValueSet Arm::getLastKnownJointPosition(){
 
 vector<double> Arm::getPosition()
 {
-   return controller.getLastKnownPos();  
+	return controller.readPosAll();
+   //return controller.getLastKnownPos();  
 }
 
 bool Arm::toReady(bool blocking)
