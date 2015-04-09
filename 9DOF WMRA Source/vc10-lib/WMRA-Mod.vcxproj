@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ARM_module.h" />
+    <ClInclude Include="..\include\ConfigReader.h" />
     <ClInclude Include="..\include\tinythread.h" />
     <ClInclude Include="..\include\WHEELCHAIR_module.h" />
     <ClInclude Include="..\include\WMRA.h" />
@@ -166,6 +167,7 @@
     <Library Include="..\include\WHEELCHAIR_module.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\ConfigReader.cpp" />
     <ClCompile Include="..\src\tinythread.cpp" />
     <ClCompile Include="..\src\WMRA.cpp" />
     <ClCompile Include="..\src\WMRA_module.cpp" />

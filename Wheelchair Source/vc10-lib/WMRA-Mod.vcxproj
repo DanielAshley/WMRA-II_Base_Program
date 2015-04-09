@@ -116,17 +116,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdparty\SockStream\src\SockStream.cpp" />
-    <ClCompile Include="..\src\DMC-4143_Controller.cpp" />
+    <ClCompile Include="..\src\galilController4143.cpp" />
     <ClCompile Include="..\src\WHEELCHAIR_module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\SockStream\include\SockStream.h" />
     <ClInclude Include="..\include\ConfigReader.h" />
     <ClInclude Include="..\include\matrix.h" />
-    <ClInclude Include="..\include\DMC-4143_Controller.h" />
+    <ClInclude Include="..\include\galilController4143.h" />
     <ClInclude Include="..\include\WHEELCHAIR_module.h" />
     <ClInclude Include="..\include\WmraTypes.h" />
     <ClInclude Include="..\include\WmraUtilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\include\settings_wheelchair_controller.conf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

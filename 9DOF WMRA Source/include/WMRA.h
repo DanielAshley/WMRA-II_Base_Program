@@ -14,6 +14,8 @@ namespace WMRA{
 		tthread::thread* t;
 	private:
 		static void wmra::running(void * aArg);
+		bool wmraDefaults();
+		bool debugMode;
 	};
 };
 

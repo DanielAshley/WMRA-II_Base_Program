@@ -1,11 +1,12 @@
 
+#include "ConfigReader.h"
 #include "ARM_module.h"
 #include "WHEELCHAIR_module.h"
 #include "WMRA.h"
 #include <time.h>
 
-//#pragma comment(lib, "ARM_module.lib")
-//#pragma comment(lib, "WHEELCHAIR_module.lib")
+#pragma comment(lib, "ARM_module.lib")
+#pragma comment(lib, "WHEELCHAIR_module.lib")
 
 using namespace std;
 using namespace WMRA;
@@ -16,14 +17,17 @@ WMRA::WHEELCHAIR_module WHEELCHAIR;
 
 wmra::wmra()
 {
+
 }
 
 bool wmra::initialize()
 {
-	//if(!ARM.initialize())
-	//	return 0;
-	//if(!WHEELCHAIR.initialize())
-	//	return 0;
+	if(!wmraDefaults())
+		return 0;
+	if(!ARM.initialize())
+		return 0;
+	if(!WHEELCHAIR.initialize())
+		return 0;
 		
 	t = new thread(running,this);
 	
@@ -33,7 +37,9 @@ bool wmra::initialize()
 void wmra::running(void * aArg) {
 	wmra* w = (wmra*)aArg;
 	clock_t last_time, current_time;
-	float dt;
+	last_time = clock();
+	current_time = clock();
+	double dt;
 	int count = 0;
 
 	while(count < 1000)
@@ -51,5 +57,20 @@ void wmra::running(void * aArg) {
 		cout << "\rRunning... dt= " << count;
 		
 	}
+}
+
+bool wmra::wmraDefaults()
+{
+	ConfigReader reader;
+	reader.parseFile("settings_wheelchair_controller.conf");
+	reader.setSection("RUN MODE");
+	if(reader.keyPresent("DEBUGMODE")){			
+		debugMode = reader.getInt("DEBUGMODE");
+	}
+	else{
+		cout << "'DEBUGMODE' default not found" << endl;		
+		return 0;
+	}
+	return 1;
 }
 

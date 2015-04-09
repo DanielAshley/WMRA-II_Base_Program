@@ -1,9 +1,9 @@
 #include "WHEELCHAIR_module.h"
-#include "DMC-4143_Controller.h"
+#include "galilController4143.h"
 #include "WmraTypes.h"
 
 using namespace WMRA;
-DMC4143 controller;
+galilController4143 controller;
 
 WHEELCHAIR_module::WHEELCHAIR_module(void)
 {

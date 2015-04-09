@@ -24,10 +24,10 @@
     <ClCompile Include="..\3rdparty\SockStream\src\SockStream.cpp">
       <Filter>Source Files\SocketStream</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\DMC-4143_Controller.cpp">
+    <ClCompile Include="..\src\WHEELCHAIR_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WHEELCHAIR_module.cpp">
+    <ClCompile Include="..\src\galilController4143.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,14 +44,19 @@
     <ClInclude Include="..\include\WmraUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\DMC-4143_Controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\ConfigReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\WHEELCHAIR_module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\galilController4143.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\include\settings_wheelchair_controller.conf">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
