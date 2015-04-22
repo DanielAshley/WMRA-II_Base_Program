@@ -3,6 +3,15 @@
 
 #include <iostream>
 #include "tinythread.h"
+#include "matrix.h" 
+
+using namespace math;
+
+#ifndef _NO_TEMPLATE
+typedef matrix<double> Matrix;
+#else
+typedef matrix Matrix;
+#endif
 
 namespace WMRA{
 	class wmra
@@ -13,9 +22,15 @@ namespace WMRA{
 		bool initialize();
 		tthread::thread* t;
 	private:
-		static void wmra::running(void * aArg);
+		bool WMRA_Jacobian_Ground2Endeffector();
+		static void running(void * aArg);
 		bool wmraDefaults();
 		bool debugMode;
+		bool controlType;
+		vector<double> Qarm;
+		vector<double> link_parameters;
+		vector<double> Length_parameters;
+		Matrix Jac;
 	};
 };
 

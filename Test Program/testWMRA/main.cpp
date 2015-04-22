@@ -13,6 +13,6 @@ int main()
 	int wait;
 	WMRA_module w;
 	w.initialize();
-	//cin >> wait;
+	cin >> wait;
 	return 0;
 }

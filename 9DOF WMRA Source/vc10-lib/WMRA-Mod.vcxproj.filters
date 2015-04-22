@@ -33,14 +33,9 @@
     <ClInclude Include="..\include\ConfigReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\include\ARM_module.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="..\include\WHEELCHAIR_module.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
+    <ClInclude Include="..\include\matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\tinythread.cpp">
@@ -55,5 +50,13 @@
     <ClCompile Include="..\src\ConfigReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\include\ARM_module.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="..\include\WHEELCHAIR_module.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>
