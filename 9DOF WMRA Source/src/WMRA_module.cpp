@@ -16,3 +16,8 @@ bool WMRA_module::initialize()
 {
 	return _wmra.initialize();
 }
+
+bool WMRA_module::sendInputValues(std::vector<double> in)
+{
+	return _wmra.sendInputValues(in);
+}

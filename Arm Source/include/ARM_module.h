@@ -37,6 +37,8 @@ namespace WMRA{
 		WMRA::JointValueSet getLastKnownJointPosition();
 		std::vector<double> getPosition();
 		std::string command(std::string Command);
+		std::vector<double> updateArmPosition();
+		std::vector<double> Q_arm_position; //radians
 	};
 };
 

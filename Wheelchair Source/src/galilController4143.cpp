@@ -54,10 +54,10 @@ void galilController4143::running(void * aArg) {
 		/********************/
 
 
-		float L1 = a->chairParameter[0];
-		float L2 = a->chairParameter[1];
-		float L3 = a->chairParameter[2];
-		float L5 = a->chairParameter[4];
+		float L1 = a->link_parameters[0];
+		float L2 = a->link_parameters[1];
+		float L3 = a->link_parameters[2];
+		float L5 = a->link_parameters[4];
 		
 		Matrix JwhA_3D(6,2);
 		JwhA_3D(0,0) = ((L5*(cos(phi_old) + (2*L3*cos(phi_old) + 2*L2*sin(phi_old))/L1))/2);
@@ -230,6 +230,34 @@ std::string galilController4143::command(std::string Command)
 	return ret_str;
 }
 
+vector<double> galilController4143::WMRA_Theta_dot2Xphi_dot()
+{
+	updateChairPositon();
+	Matrix tgt(2,2);
+	tgt(0,0) = link_parameters[4]/2;
+	tgt(0,1) = link_parameters[4]/2;
+	tgt(1,0) = -1*link_parameters[4]/link_parameters[0];
+	tgt(1,1) = link_parameters[4]/link_parameters[0];
+	Matrix thetaDot(2,1);
+	thetaDot(0,0) = wheel_theta_dot[0];
+	thetaDot(1,0) = wheel_theta_dot[1];
+	DXphi_dot = tgt * thetaDot;
+	phi_old = phi_old + DXphi_dot(1,0);
+	vector<double> temp(2);
+	temp[0] = DXphi_dot(0,0);
+	temp[1] = DXphi_dot(1,0);
+	return temp;
+}
+
+vector<double> galilController4143::updateChairPositon()
+{
+	wheel_theta_new[0] = enc2Radian[0] * getPosition(0);
+	wheel_theta_new[1] = enc2Radian[1] * getPosition(1);
+	wheel_theta_dot[0] = wheel_theta_new[0]-wheel_theta_old[0];
+	wheel_theta_dot[1] = wheel_theta_new[1]-wheel_theta_old[1];
+	wheel_theta_old = wheel_theta_new;
+}
+
 
 // PRIVATE FUNCTIONS
 
@@ -247,20 +275,6 @@ bool galilController4143::setupSocket()
 bool galilController4143::startup()
 {
 	t = new thread(running,this);
-	float L1 = chairParameter[0];
-	float L5 = chairParameter[4];
-	Matrix q_dot_chair(2,1);
-	q_dot_chair(0,0) = 0;
-	q_dot_chair(1,0) = 0;
-	Matrix dt = q_dot_chair;
-	Matrix Xphi_dot(2,2);
-	Xphi_dot(0,0) = (L5/2);
-	Xphi_dot(0,1) = (L5/2);
-	Xphi_dot(1,0) = (-L5/L1);
-	Xphi_dot(1,1) = (L5/L1);
-	Xphi_dot = Xphi_dot * q_dot_chair;
-
-	Matrix DXphi_dot = Xphi_dot*dt;
 
 	return galilController4143::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
 	//return sock.is_open();
@@ -298,40 +312,46 @@ int galilController4143::commandGalil(char* Command, char* Response, int Respons
 
 bool galilController4143::setDefaults()
 {
-	chairParameter.resize(5); 
+	link_parameters.resize(5); 
+	wheel_axis_center_position.resize(3);
+	wheel_theta_old.resize(2);
+	wheel_theta_dot.resize(2);
+	DXphi_dot = Matrix(2,1);
+	phi_old = 0.0;
+
 	ConfigReader reader;
-	reader.parseFile("settings_wheelchair_controller.conf");
+	reader.parseFile("WMRA_wheelchair_settings.conf");
 	reader.setSection("PARAMETERS");
 	if(reader.keyPresent("L1")){			
-		chairParameter[0] = reader.getInt("L1");
+		link_parameters[0] = reader.getInt("L1");
 	}
 	else{
 		cout << "'L1' default not found" << endl;			
 		return 0;
 	}
 	if(reader.keyPresent("L2")){			
-		chairParameter[1] = reader.getInt("L2");
+		link_parameters[1] = reader.getInt("L2");
 	}
 	else{
 		cout << "'L2' default not found" << endl;			
 		return 0;
 	}
 	if(reader.keyPresent("L3")){			
-		chairParameter[2] = reader.getInt("L3");
+		link_parameters[2] = reader.getInt("L3");
 	}
 	else{
 		cout << "'L3' default not found" << endl;			
 		return 0;
 	}
 	if(reader.keyPresent("L4")){			
-		chairParameter[3] = reader.getInt("L4");
+		link_parameters[3] = reader.getInt("L4");
 	}
 	else{
 		cout << "'L4' default not found" << endl;			
 		return 0;
 	}
 	if(reader.keyPresent("L5")){			
-		chairParameter[4] = reader.getInt("L5");
+		link_parameters[4] = reader.getInt("L5");
 	}
 	else{
 		cout << "'L5' default not found" << endl;			
@@ -354,6 +374,34 @@ bool galilController4143::setDefaults()
 		return 0;
 	}
 
+	reader.setSection("MOTOR_CONTROLLER_DEFAULTS");
+	if(reader.keyPresent("initial_position_1")){			
+		wheel_axis_center_position[0] = reader.getDouble("initial_position_1"); //calculate conversion values
+	}
+	else{
+		cout << "'initial_position_1' default not found" << endl;			
+		return 0;
+	}
+	if(reader.keyPresent("initial_position_2")){
+		wheel_axis_center_position[1] = reader.getDouble("initial_position_2"); //calculate conversion values
+	}
+	else{
+		cout << "'initial_position_2' default not found" << endl;			
+		return 0;
+	}
+	if(reader.keyPresent("initial_position_3")){
+		wheel_axis_center_position[2] = reader.getDouble("initial_position_3"); //calculate conversion values
+	}
+	else{
+		cout << "'initial_position_3' default not found" << endl;			
+		return 0;
+	}
+
+	wheel_theta_old[0] = 0.0;
+	wheel_theta_old[1] = 0.0;
+
+	wheel_theta_dot[0] = 0.0;
+	wheel_theta_dot[1] = 0.0;
 
 	return 1;
 }

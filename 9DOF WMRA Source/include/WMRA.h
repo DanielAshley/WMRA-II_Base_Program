@@ -4,6 +4,7 @@
 #include <iostream>
 #include "tinythread.h"
 #include "matrix.h" 
+#include <vector>
 
 using namespace math;
 
@@ -21,8 +22,13 @@ namespace WMRA{
 		//~wmra(void);
 		bool initialize();
 		tthread::thread* t;
+		double phi;
+		bool sendInputValues(vector<double> in);
 	private:
-		bool WMRA_Jacobian_Ground2Endeffector();
+		bool Jacobian_Ground2Endeffector();
+		bool weighted_pseudoinverse();
+		bool control_joint(double pitch, double roll);
+		bool JointSpeed_limitation();
 		static void running(void * aArg);
 		bool wmraDefaults();
 		bool debugMode;
@@ -31,6 +37,8 @@ namespace WMRA{
 		vector<double> link_parameters;
 		vector<double> Length_parameters;
 		Matrix Jac;
+		Matrix q_dot;
+		vector<double> inputDevice;
 	};
 };
 

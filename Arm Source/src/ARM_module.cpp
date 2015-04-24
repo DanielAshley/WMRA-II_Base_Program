@@ -132,3 +132,9 @@ std::string ARM_module::command(std::string Command)
 {
 	return arm.command(Command);
 }
+
+std::vector<double> ARM_module::updateArmPosition()
+{
+	Q_arm_position = arm.updateWheelchairPosition();
+	return Q_arm_position;
+}

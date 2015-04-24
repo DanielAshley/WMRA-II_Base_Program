@@ -18,6 +18,8 @@ namespace WMRA{
 		bool initialize();
 		bool isInitialized();
 		std::vector<double> getPosition();
+		std::vector<double> WMRA_Theta_dot2Xphi_dot();
+		std::vector<double> DXphi_dot;
 //	private:
 	};
 };

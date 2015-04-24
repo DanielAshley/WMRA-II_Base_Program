@@ -516,6 +516,17 @@ vector<double> Arm::getPosition()
    //return controller.getLastKnownPos();  
 }
 
+vector<double> Arm::updateWheelchairPosition()
+{
+	vector<double> temp =  getPosition();
+	for(int i = 0; i<8; i++)
+	{
+		current_arm_position[i] = temp[i];
+		Q_arm_position[i] = initial_Arm_position[i] + current_arm_position[i];
+	}
+	return Q_arm_position;
+}
+
 bool Arm::toReady(bool blocking)
 {
 	controller.Stop();
@@ -576,9 +587,14 @@ bool Arm::isInitialized()
 
 bool Arm::setDefaults()
 {
+   initial_Arm_position.resize(8);
+   current_arm_position.resize(8);
+   Q_arm_position.resize(8);
+   Arm_link.resize(7);
+
    ConfigReader reader;
-   reader.parseFile("settings.conf");
-   reader.setSection("WMRA_DEFAULTS");
+   reader.parseFile("WMRA_arm_settings.conf");
+   reader.setSection("ARM_DEFAULTS");
 
    if(reader.keyPresent("dt"))
    {
@@ -612,6 +628,180 @@ bool Arm::setDefaults()
       cout << "'maxAngularVelocity' default not found" << endl;
       return 0;
    }
+
+   if(reader.keyPresent("initial_arm_1"))
+   {
+      Arm::initial_Arm_position[0] = reader.getDouble("initial_arm_1");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_1' default not found" << endl;
+      return 0;
+   }
+
+   if(reader.keyPresent("initial_arm_2"))
+   {
+      Arm::initial_Arm_position[1] = reader.getDouble("initial_arm_2");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_2' default not found" << endl;
+      return 0;
+   }
+
+   if(reader.keyPresent("initial_arm_3"))
+   {
+      Arm::initial_Arm_position[2] = reader.getDouble("initial_arm_3");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_3' default not found" << endl;
+      return 0;
+   }
+
+   if(reader.keyPresent("initial_arm_4"))
+   {
+      Arm::initial_Arm_position[3] = reader.getDouble("initial_arm_4");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_4' default not found" << endl;
+      return 0;
+   }
+   
+   if(reader.keyPresent("initial_arm_5"))
+   {
+      Arm::initial_Arm_position[4] = reader.getDouble("initial_arm_5");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_5' default not found" << endl;
+      return 0;
+   }
+   
+   if(reader.keyPresent("initial_arm_6"))
+   {
+      Arm::initial_Arm_position[5] = reader.getDouble("initial_arm_6");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_6' default not found" << endl;
+      return 0;
+   }
+   
+   if(reader.keyPresent("initial_arm_7"))
+   {
+      Arm::initial_Arm_position[6] = reader.getDouble("initial_arm_7");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_7' default not found" << endl;
+      return 0;
+   }
+   
+   if(reader.keyPresent("initial_arm_8"))
+   {
+      Arm::initial_Arm_position[7] = reader.getDouble("initial_arm_8");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'initial_arm_8' default not found" << endl;
+      return 0;
+   }
+      
+   if(reader.keyPresent("link_1"))
+   {
+      Arm::Arm_link[0] = reader.getDouble("link_1");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_1' default not found" << endl;
+      return 0;
+   }
+         
+   if(reader.keyPresent("link_2"))
+   {
+      Arm::Arm_link[1] = reader.getDouble("link_2");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_2' default not found" << endl;
+      return 0;
+   }
+         
+   if(reader.keyPresent("link_3"))
+   {
+      Arm::Arm_link[2] = reader.getDouble("link_3");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_3' default not found" << endl;
+      return 0;
+   }
+         
+   if(reader.keyPresent("link_4"))
+   {
+      Arm::Arm_link[3] = reader.getDouble("link_4");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_4' default not found" << endl;
+      return 0;
+   }
+         
+   if(reader.keyPresent("link_5"))
+   {
+      Arm::Arm_link[4] = reader.getDouble("link_5");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_5' default not found" << endl;
+      return 0;
+   }
+         
+   if(reader.keyPresent("link_6"))
+   {
+      Arm::Arm_link[5] = reader.getDouble("link_6");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_6' default not found" << endl;
+      return 0;
+   }
+
+   if(reader.keyPresent("link_7"))
+   {
+      Arm::Arm_link[6] = reader.getDouble("link_7");
+      //cout << "control_velocity: " << Arm::control_velocity << endl;
+   }
+   else
+   {
+      cout << "'link_7' default not found" << endl;
+      return 0;
+   }
+
+   current_arm_position.resize(8);
+   for(int i = 0; i<8; i++)
+   {
+	   current_arm_position[i] = 0.0;
+	   Q_arm_position[i] = initial_Arm_position[i] + current_arm_position[i];
+   }
+
+
    return 1;
 }
 

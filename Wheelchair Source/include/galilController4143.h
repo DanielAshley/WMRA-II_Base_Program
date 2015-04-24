@@ -39,8 +39,11 @@ public:
 	long getVelocity(int motor);
 	long getTorque(int motor);
 	std::string command(std::string Command); // user command structure, used by MotorController
-	vector<int> chairParameter;
+	vector<int> link_parameters;
 	vector<double> enc2Radian;
+	vector<double> WMRA_Theta_dot2Xphi_dot();
+	Matrix DXphi_dot;
+
 private:
 	double encToAng(int motor, long encCount);
 	tthread::thread* t;
@@ -51,7 +54,13 @@ private:
 	bool setupSocket();
 	bool startup();
 	bool setDefaults(); // set defaults
+	double phi_old;
 	Matrix J_Dtheta2Dphi;
+	vector<double> updateChairPositon();
+	vector<double> wheel_axis_center_position;
+	vector<double> wheel_theta_new;
+	vector<double> wheel_theta_old;
+	vector<double> wheel_theta_dot;
 };
 
 #endif;

@@ -16,5 +16,6 @@ namespace WMRA{
 		WMRA_module(void);
 		//~WMRA_module(void);
 		bool initialize();
+		bool sendInputValues(std::vector<double> in);
 	};
 };

@@ -26,3 +26,9 @@ std::vector<double> WHEELCHAIR_module::getPosition()
 	pos.push_back(controller.getPosition(2)*controller.enc2Radian[1]);
 	return pos;
 }
+
+std::vector<double> WHEELCHAIR_module::WMRA_Theta_dot2Xphi_dot()
+{
+	DXphi_dot = controller.WMRA_Theta_dot2Xphi_dot();
+	return DXphi_dot;
+}

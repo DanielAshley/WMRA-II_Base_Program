@@ -46,6 +46,8 @@ public:
 	vector<double> getPosition();
 	tthread::thread* t;
 	std::string command(std::string Command);
+	vector<double> updateWheelchairPosition();
+	vector<double> Q_arm_position; //radians
 
 private:
 	static void running(void * aArg);
@@ -70,5 +72,8 @@ private:
     bool gripperOpen;
 	MotorController controller; 
 	Matrix gripperInitRotDiff;
+	vector<double> initial_Arm_position; //radians
+	vector<double> current_arm_position; //radians
+	vector<double> Arm_link; //radians
 };
 #endif;
