@@ -18,7 +18,7 @@ using namespace tthread;
 WMRA::ARM_module ARM;
 WMRA::WHEELCHAIR_module WHEELCHAIR;
 
-
+std::mutex mu;
 
 wmra::wmra()
 {
@@ -250,6 +250,15 @@ bool wmra::weighted_pseudoinverse()
 	weight.Null();
 	Matrix X_dot(6,1);
 
+	// Input Device Values, should be updated in main program by using sendInputValues(vector<double>);
+	vector<double> inDevice = getInputValues();
+	X_dot(0, 0) = inDevice[0];
+	X_dot(1, 0) = inDevice[1];
+	X_dot(2, 0) = inDevice[2];
+	X_dot(3, 0) = inDevice[3];
+	X_dot(4, 0) = inDevice[4];
+	X_dot(5, 0) = inDevice[5];
+
 	for(int i=0; i<9; i++)
 	{
 		weight(i,i) = wheight_val;
@@ -293,11 +302,23 @@ bool wmra::sendInputValues()
 
 bool wmra::sendInputValues(vector<double> in)
 {
-	if(in.size() == 7)
+	if (in.size() == 7)
 		inputDevice = in;
 	else
 		return 0;
 	return 1;
+}
+
+vector<double> wmra::getInputValues()
+{
+	if (inputDevice.size() != 6)
+	{
+		std::cout << "Input device not setup correctly, defaulting to zeros" << std::endl;
+		inputDevice.resize(6);
+		for (int i = 0; i < 6; i++)
+			inputDevice[i] = 0.0;
+	}
+	return inputDevice;
 }
 
 void wmra::running(void * aArg) {
@@ -329,14 +350,18 @@ void wmra::running(void * aArg) {
 		
 		/****Data Output (cout)****/
 		std::cout.flush();
-		cout << "\rRunning... dt= " << dt;
+		std::cout << "\rRunning at " << (1/dt) << "Hz" << std::endl;
+		std::cout << "Omni Input = [" << w->inputDevice[0] << ", " << w->inputDevice[1] << ", " << w->inputDevice[2] << "]" << std::endl;
+
 		//cout << "\rRunning... dt= " << count;
 		/********************/
 		
+		mu.lock();
 		w->Jacobian_Ground2Endeffector();
 		w->weighted_pseudoinverse();
 		w->control_joint(w->inputDevice[4],w->inputDevice[5]);
 		w->sendInputValues(); // zero input values after they are used
+		mu.unlock();
 
 		/**********Updating Devices**********/
 		ARM.updateArmPosition();

@@ -25,6 +25,7 @@ namespace WMRA{
 		double phi;
 		bool sendInputValues(); // sets input to zeros
 		bool sendInputValues(vector<double> in);
+		vector<double> getInputValues();
 	private:
 		bool Jacobian_Ground2Endeffector();
 		bool weighted_pseudoinverse();
