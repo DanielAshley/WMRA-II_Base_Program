@@ -4,6 +4,9 @@
 #include "WHEELCHAIR_module.h"
 #include "WMRA.h"
 #include <time.h>
+#include <iostream>
+#include "Windows.h"
+#include <mutex>
 
 //#pragma comment(lib, "ARM_module.lib")
 //#pragma comment(lib, "WHEELCHAIR_module.lib")
@@ -14,6 +17,8 @@ using namespace tthread;
 
 WMRA::ARM_module ARM;
 WMRA::WHEELCHAIR_module WHEELCHAIR;
+
+
 
 wmra::wmra()
 {
@@ -272,7 +277,17 @@ bool wmra::control_joint(double pitch, double roll)
 
 bool wmra::JointSpeed_limitation()
 {
+
 	// DEBUG: ToDo
+	return 1;
+}
+
+bool wmra::sendInputValues()
+{
+	for(int i = 0; i<6; i++)
+	{
+		inputDevice[i] = 0.0;
+	}
 	return 1;
 }
 
@@ -299,12 +314,12 @@ void wmra::running(void * aArg) {
 		X_dot.push_back(0.0);
 		w->Qarm.push_back(0.0);
 	}
-	w->inputDevice[4] = 0;
-	w->inputDevice[5] = 0;
+
+	w->sendInputValues(); // zero input
 
 	while(count < 1000)
 	{
-		count++;
+		//count++;
 
 		/****Calculate dt****/
 		clock_t current_time = clock();
@@ -314,20 +329,15 @@ void wmra::running(void * aArg) {
 		
 		/****Data Output (cout)****/
 		std::cout.flush();
-		//cout << "\rRunning... dt= " << dt;
-		cout << "\rRunning... dt= " << count;
-		/********************/
-
-		/*********Omni Input***********/
-			// Or other input device
-		w->inputDevice[4] = 0;
-		w->inputDevice[5] = 0;
+		cout << "\rRunning... dt= " << dt;
+		//cout << "\rRunning... dt= " << count;
 		/********************/
 		
 		w->Jacobian_Ground2Endeffector();
 		w->weighted_pseudoinverse();
 		w->control_joint(w->inputDevice[4],w->inputDevice[5]);
-	
+		w->sendInputValues(); // zero input values after they are used
+
 		/**********Updating Devices**********/
 		ARM.updateArmPosition();
 		WHEELCHAIR.WMRA_Theta_dot2Xphi_dot();
