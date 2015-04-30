@@ -256,6 +256,7 @@ vector<double> galilController4143::updateChairPositon()
 	wheel_theta_dot[0] = wheel_theta_new[0]-wheel_theta_old[0];
 	wheel_theta_dot[1] = wheel_theta_new[1]-wheel_theta_old[1];
 	wheel_theta_old = wheel_theta_new;
+	return wheel_theta_old;
 }
 
 
@@ -268,7 +269,14 @@ bool galilController4143::setupSocket()
 	const char * c = IP.c_str();
 	sock.open(c,23);
 
-	return galilController4143::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
+	try{
+		galilController4143::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
+	}
+	catch (...)
+	{
+		return 0;
+	}
+	return 1;
 	//return sock.is_open();
 }
 

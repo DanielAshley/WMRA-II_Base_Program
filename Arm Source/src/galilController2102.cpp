@@ -133,7 +133,14 @@ bool galilController2102::initializeSocket(std::string IP)
 {
 	const char * c = IP.c_str();
 	sock.open(c,23);
-	return galilController2102::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
+	try{
+		galilController2102::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
+	}
+	catch (...)
+	{
+		return 0;
+	}
+	return 1;
 }
 
 int galilController2102::commandGalil(char* Command, char* Response, int ResponseSize) //returns the number of bytes read
