@@ -23,7 +23,9 @@ std::mutex mu;
 wmra::wmra()
 {
 	phi = 0;
+	mu.lock();
 	inputDevice.resize(6);
+	mu.unlock();
 
 	cout << "Initializing WMRA" << endl;
 }
@@ -293,17 +295,23 @@ bool wmra::JointSpeed_limitation()
 
 bool wmra::sendInputValues()
 {
+	mu.lock();
 	for(int i = 0; i<6; i++)
 	{
 		inputDevice[i] = 0.0;
 	}
 	return 1;
+	mu.unlock();
 }
 
 bool wmra::sendInputValues(vector<double> in)
 {
 	if (in.size() == 7)
+	{
+		mu.lock();
 		inputDevice = in;
+		mu.unlock();
+	}
 	else
 		return 0;
 	return 1;
@@ -311,6 +319,8 @@ bool wmra::sendInputValues(vector<double> in)
 
 vector<double> wmra::getInputValues()
 {
+	vector<double> tgt;
+	mu.lock();
 	if (inputDevice.size() != 6)
 	{
 		std::cout << "Input device not setup correctly, defaulting to zeros" << std::endl;
@@ -318,7 +328,9 @@ vector<double> wmra::getInputValues()
 		for (int i = 0; i < 6; i++)
 			inputDevice[i] = 0.0;
 	}
-	return inputDevice;
+	tgt = inputDevice;
+	mu.unlock();
+	return tgt;
 }
 
 void wmra::running(void * aArg) {
@@ -338,10 +350,8 @@ void wmra::running(void * aArg) {
 
 	w->sendInputValues(); // zero input
 
-	while(count < 1000)
+	while(true)
 	{
-		//count++;
-
 		/****Calculate dt****/
 		clock_t current_time = clock();
 		dt = (current_time - last_time)/CLOCKS_PER_SEC;
@@ -356,13 +366,11 @@ void wmra::running(void * aArg) {
 		//cout << "\rRunning... dt= " << count;
 		/********************/
 		
-		mu.lock();
 		w->Jacobian_Ground2Endeffector();
 		w->weighted_pseudoinverse();
 		w->control_joint(w->inputDevice[4],w->inputDevice[5]);
 		w->sendInputValues(); // zero input values after they are used
-		mu.unlock();
-
+	
 		/**********Updating Devices**********/
 		ARM.updateArmPosition();
 		WHEELCHAIR.WMRA_Theta_dot2Xphi_dot();
