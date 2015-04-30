@@ -74,6 +74,9 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ARM_module</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='TestBuild|Win32'">WMRA_module</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>ARM_module</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>

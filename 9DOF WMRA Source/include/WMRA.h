@@ -7,6 +7,8 @@
 #include "ARM_module.h"
 #include "WHEELCHAIR_module.h"
 #include <vector>
+#include "Windows.h"
+#include <mutex>
 
 using namespace math;
 
@@ -45,6 +47,7 @@ namespace WMRA{
 		WHEELCHAIR_module WHEELCHAIR;
 
 	private:
+		std::mutex mu;
 		bool initialized;
 		//static void running(LPVOID aArg);
 

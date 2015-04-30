@@ -3,18 +3,12 @@
 #include "WMRA.h"
 #include <time.h>
 #include <iostream>
-#include "Windows.h"
-#include <mutex>
 
 //#pragma comment(lib, "ARM_module.lib")
 //#pragma comment(lib, "WHEELCHAIR_module.lib")
 
 using namespace std;
 using namespace WMRA;
-
-
-std::mutex mu;
-
 
 wmra::wmra()
 {

@@ -3,14 +3,17 @@
 #include <time.h>
 #include "WMRA_module.h"
 #include "WMRA.h"
+#include "Windows.h"
+#include <mutex>
 
 using namespace std;
 using namespace WMRA;
 using namespace tthread;
 
+std::mutex m;
 tthread::thread* t;
-wmra _wmra;
 
+vector<double> inputValues(6);
 
 void running(void * aArg);
 
@@ -22,22 +25,31 @@ bool WMRA_module::initialize()
 {
 
 	t = new thread(running,0);
-	return _wmra.isInitialized();
+	return true;
 }
 
 bool WMRA_module::sendInputValues(std::vector<double> in)
 {
-	return _wmra.sendInputValues(in);
+	if (in.size() != 6)
+		return 0;
+	else
+	{
+		m.lock();
+		inputValues = in;
+		m.unlock();
+	}
+	return 1;
 }
 
 
 
 void running(void * aArg) {
+	wmra _wmra;
 
 	_wmra.initialize();
 
 	clock_t last_time, current_time;
-	last_time = clock();
+	last_time = clock()-1;
 	current_time = clock();
 	double dt;
 	int count = 0;
@@ -61,11 +73,13 @@ void running(void * aArg) {
 
 		/****Data Output (cout)****/
 		std::cout.flush();
-		std::cout << "\rRunning at " << dt << " seconds per loop" << std::endl;
-		std::cout << "Omni Input = [" << _wmra.inputDevice[0] << ", " << _wmra.inputDevice[1] << ", " << _wmra.inputDevice[2] << "]" << std::endl;
-
-		//cout << "\rRunning... dt= " << count;
+		std::cout << "\rRunning at " << 1/dt << " seconds per loop" << std::endl;
+		std::cout << "Omni Input = [" << _wmra.inputDevice[0] << ", " << _wmra.inputDevice[1] << ", " << _wmra.inputDevice[2] << "]" << std::endl;		
 		/********************/
+
+		m.lock(); // mutex locked since using global variable.
+		_wmra.sendInputValues(inputValues); 
+		m.unlock();
 
 		_wmra.Jacobian_Ground2Endeffector();
 		_wmra.weighted_pseudoinverse();
