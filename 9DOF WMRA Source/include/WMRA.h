@@ -4,6 +4,8 @@
 #include <iostream>
 #include "tinythread.h"
 #include "matrix.h" 
+#include "ARM_module.h"
+#include "WHEELCHAIR_module.h"
 #include <vector>
 
 using namespace math;
@@ -21,26 +23,31 @@ namespace WMRA{
 		wmra(void);
 		//~wmra(void);
 		bool initialize();
-		tthread::thread* t;
 		double phi;
 		bool sendInputValues(); // sets input to zeros
 		bool sendInputValues(vector<double> in);
-		vector<double> getInputValues();
-	private:
 		bool Jacobian_Ground2Endeffector();
 		bool weighted_pseudoinverse();
 		bool control_joint(double pitch, double roll);
 		bool JointSpeed_limitation();
-		static void running(void * aArg);
-		bool wmraDefaults();
-		bool debugMode;
-		bool controlType;
+		vector<double> getInputValues();
 		vector<double> Qarm;
 		vector<double> link_parameters;
-		vector<double> Length_parameters;
+		vector<double> length_parameters;
 		Matrix Jac;
 		Matrix q_dot;
 		vector<double> inputDevice;
+		bool wmraDefaults();
+		bool debugMode;
+		int controlType;
+		bool isInitialized();
+		ARM_module ARM;
+		WHEELCHAIR_module WHEELCHAIR;
+
+	private:
+		bool initialized;
+		//static void running(LPVOID aArg);
+
 	};
 };
 

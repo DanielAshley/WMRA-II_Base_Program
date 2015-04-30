@@ -646,7 +646,7 @@ bool MotorController::setJointLimits()
 bool MotorController::setDefaults()
 {
 	ConfigReader reader;
-	reader.parseFile("settings_controller.conf");
+	reader.parseFile("WMRA_arm_settings.conf");
 	reader.setSection("MOTOR_CONTROLLER_DEFAULTS");
 
 	if(reader.keyPresent("encoderPerRevolution1")){			

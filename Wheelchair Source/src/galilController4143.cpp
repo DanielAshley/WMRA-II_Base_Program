@@ -282,7 +282,7 @@ bool galilController4143::setupSocket()
 
 bool galilController4143::startup()
 {
-	t = new thread(running,this);
+	//t = new thread(running,this);
 
 	return galilController4143::sock.connected(); // #DEBUG - breaks if trying to setup sock while WMRA is off
 	//return sock.is_open();

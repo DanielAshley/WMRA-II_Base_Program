@@ -1,7 +1,5 @@
 
 #include "ConfigReader.h"
-#include "ARM_module.h"
-#include "WHEELCHAIR_module.h"
 #include "WMRA.h"
 #include <time.h>
 #include <iostream>
@@ -13,25 +11,26 @@
 
 using namespace std;
 using namespace WMRA;
-using namespace tthread;
 
-WMRA::ARM_module ARM;
-WMRA::WHEELCHAIR_module WHEELCHAIR;
 
 std::mutex mu;
 
+
 wmra::wmra()
 {
-	phi = 0;
-	mu.lock();
-	inputDevice.resize(6);
-	mu.unlock();
 
-	cout << "Initializing WMRA" << endl;
 }
 
 bool wmra::initialize()
 {
+	initialized = false;
+	phi = 0;
+//	mu.lock();
+	inputDevice.resize(6);
+//	mu.unlock();
+
+	cout << "Initializing WMRA" << endl;
+
 	if(!wmraDefaults())
 		return 0;
 	if(!ARM.initialize())
@@ -39,8 +38,7 @@ bool wmra::initialize()
 	if(!WHEELCHAIR.initialize())
 		return 0;
 
-	t = new thread(running,this);
-	
+	initialized = true;
 	return 1;
 }
 
@@ -48,11 +46,11 @@ bool wmra::Jacobian_Ground2Endeffector()
 { 
 	controlType = 2;
 	Matrix tgt(6,9);
-	double L1 = Length_parameters[0];
-	double L2 = Length_parameters[1];
-	double L3 = Length_parameters[2];
-	double L4 = Length_parameters[3];
-	double L5 = Length_parameters[4];
+	double L1 = length_parameters[0];
+	double L2 = length_parameters[1];
+	double L3 = length_parameters[2];
+	double L4 = length_parameters[3];
+	double L5 = length_parameters[4];
 	double d1=link_parameters[0];
 	double d2=link_parameters[1]; 
 	double d3=link_parameters[2]; 
@@ -70,6 +68,7 @@ bool wmra::Jacobian_Ground2Endeffector()
 
 	//JG7 respect to armbase. so it is armbase control, using for teleoperation.
 
+	std::cout << "HERE" << std::endl;
 	
 	if(controlType == 1)
 	{		
@@ -333,64 +332,30 @@ vector<double> wmra::getInputValues()
 	return tgt;
 }
 
-void wmra::running(void * aArg) {
-	wmra* w = (wmra*)aArg;
-	clock_t last_time, current_time;
-	last_time = clock();
-	current_time = clock();
-	double dt;
-	int count = 0;
-
-	vector<double> X_dot;
-	for(int i = 0; i < 7; i++)
-	{
-		X_dot.push_back(0.0);
-		w->Qarm.push_back(0.0);
-	}
-
-	w->sendInputValues(); // zero input
-
-	while(true)
-	{
-		/****Calculate dt****/
-		clock_t current_time = clock();
-		dt = (current_time - last_time)/CLOCKS_PER_SEC;
-		last_time = current_time;
-		/********************/
-		
-		/****Data Output (cout)****/
-		std::cout.flush();
-		std::cout << "\rRunning at " << (1/dt) << "Hz" << std::endl;
-		std::cout << "Omni Input = [" << w->inputDevice[0] << ", " << w->inputDevice[1] << ", " << w->inputDevice[2] << "]" << std::endl;
-
-		//cout << "\rRunning... dt= " << count;
-		/********************/
-		
-		w->Jacobian_Ground2Endeffector();
-		w->weighted_pseudoinverse();
-		w->control_joint(w->inputDevice[4],w->inputDevice[5]);
-		w->sendInputValues(); // zero input values after they are used
-	
-		/**********Updating Devices**********/
-		ARM.updateArmPosition();
-		WHEELCHAIR.WMRA_Theta_dot2Xphi_dot();
-		w->phi = w->phi + WHEELCHAIR.DXphi_dot[1]; 
-		/********************/
-	}
+bool wmra::isInitialized()
+{
+	return initialized;
 }
 
 bool wmra::wmraDefaults()
 {
+	link_parameters.resize(7);
+	length_parameters.resize(5);
+	Qarm.resize(7);
+	controlType = 2;
+
+	/*
 	ConfigReader reader;
-	reader.parseFile("settings_wheelchair_controller.conf");
-	reader.setSection("RUN MODE");
+	reader.parseFile("WMRA_settings.conf");
+	reader.setSection("RUN_MODE");
 	if(reader.keyPresent("DEBUGMODE")){			
 		debugMode = reader.getInt("DEBUGMODE");
 	}
 	else{
 		cout << "'DEBUGMODE' default not found" << endl;		
 		return 0;
-	}
+	}*/
 	return 1;
-}
+	
 
+}

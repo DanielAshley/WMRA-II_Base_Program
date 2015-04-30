@@ -14,6 +14,9 @@ client_tcpsocket galilController2102::sock;
 
 galilController2102::galilController2102(){
 	debugFile.open("data/GalilDebug.log");
+	IP = "192.168.1.22";
+	simulation = 0;
+	debug = 0;
 	initialized = false;
 }
 
@@ -24,18 +27,15 @@ galilController2102::~galilController2102(){
 
 bool galilController2102::initialize()
 {
-	initialized = setDefaults();
-	if(initialized)
+	
+	if(simulation)
 	{
-		if(simulation)
-		{
-			cout << "Simulation Mode" << endl;
-			initialized = true;
-		}
-		else
-		{
-			initialized = initializeSocket(galilController2102::IP);
-		}
+		cout << "Simulation Mode" << endl;
+		initialized = true;
+	}
+	else
+	{
+		initialized = initializeSocket(galilController2102::IP);
 	}
 	if(!initialized)
 	{
@@ -91,43 +91,6 @@ std::string galilController2102::command(std::string Command)
 	}
 }
 
-// PRIVATE FUNCTIONS
-bool galilController2102::setDefaults()
-{
-	ConfigReader reader;
-	reader.parseFile("settings_controller.conf");
-	reader.setSection("GALIL_DEFAULTS");
-
-	if(reader.keyPresent("IP"))
-	{
-		galilController2102::IP = reader.getString("IP");
-	}
-	else
-	{
-		cout << "'IP' default not found" << endl;
-		return 0;
-	}
-	if(reader.keyPresent("simulation"))
-	{
-		simulation = reader.getInt("simulation");
-	}
-	else
-	{
-		cout << "'simulation' default not found" << endl;
-		return 0;
-	}
-	if(reader.keyPresent("debug"))
-	{
-		debug = reader.getInt("debug");
-	}
-	else
-	{
-		cout << "'debug' default not found" << endl;
-		return 0;
-	}
-
-	return 1;
-}	
 
 bool galilController2102::initializeSocket(std::string IP)
 {
